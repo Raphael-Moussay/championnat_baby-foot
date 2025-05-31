@@ -1,48 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Matchs - Championnat de Babyfoot</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <title>Matchs - Ligue Babyfoot</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/matchs.js"></script>
 </head>
-<body class="bg-gray-100 text-gray-800 p-6">
-  <nav class="mb-6">
-    <a href="index.html" class="mr-4 text-blue-500 hover:underline">Classement</a>
-    <a href="matchs.html" class="mr-4 font-bold text-blue-600">Matchs</a>
-    <a href="equipes.html" class="text-blue-500 hover:underline">Équipes</a>
+<body>
+  <nav>
+    <a href="index.html">Classement</a>
+    <a href="matchs.html">Matchs</a>
+    <a href="equipes.html">Équipes</a>
   </nav>
-
-  <h1 class="text-3xl font-bold mb-4">📅 Matchs</h1>
-  <div id="matchs" class="space-y-4"></div>
-
-  <button onclick="save()" class="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Enregistrer les résultats</button>
-
-  <script>
-    const matchs = JSON.parse(localStorage.getItem("matchs") || "[]");
-    const container = document.getElementById("matchs");
-
-    matchs.forEach((m, i) => {
-      container.innerHTML += `
-        <div class="bg-white p-4 shadow rounded flex items-center justify-between">
-          <span>${m.equipeA} vs ${m.equipeB}</span>
-          <div>
-            <input type="number" min="0" value="${m.scoreA}" id="a-${i}" class="w-16 text-center border rounded mx-1" />
-            <span>–</span>
-            <input type="number" min="0" value="${m.scoreB}" id="b-${i}" class="w-16 text-center border rounded mx-1" />
-          </div>
-        </div>
-      `;
-    });
-
-    function save() {
-      matchs.forEach((m, i) => {
-        m.scoreA = document.getElementById(`a-${i}`).value;
-        m.scoreB = document.getElementById(`b-${i}`).value;
-      });
-      localStorage.setItem("matchs", JSON.stringify(matchs));
-      alert("Résultats enregistrés !");
-    }
-  </script>
+  <h1>📅 Matchs</h1>
+  <div id="matchs"></div>
+  <button onclick="save()">💾 Enregistrer les résultats</button>
 </body>
 </html>

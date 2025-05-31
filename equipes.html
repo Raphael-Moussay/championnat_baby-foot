@@ -1,64 +1,22 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Équipes - Championnat de Babyfoot</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <title>Équipes - Ligue Babyfoot</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/equipes.js"></script>
 </head>
-<body class="bg-gray-100 text-gray-800 p-6">
-  <nav class="mb-6">
-    <a href="index.html" class="mr-4 text-blue-500 hover:underline">Classement</a>
-    <a href="matchs.html" class="mr-4 text-blue-500 hover:underline">Matchs</a>
-    <a href="equipes.html" class="font-bold text-blue-600">Équipes</a>
+<body>
+  <nav>
+    <a href="index.html">Classement</a>
+    <a href="matchs.html">Matchs</a>
+    <a href="equipes.html">Équipes</a>
   </nav>
-
-  <h1 class="text-3xl font-bold mb-4">👥 Ajouter des équipes</h1>
-
-  <input type="text" id="newEquipe" placeholder="Nom de l’équipe" class="p-2 border rounded w-full mb-4" />
-  <button onclick="addEquipe()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Ajouter</button>
-
-  <h2 class="text-xl mt-6 font-semibold mb-2">Équipes enregistrées</h2>
-  <ul id="listeEquipes" class="list-disc ml-6 space-y-1"></ul>
-
-  <button onclick="genererMatchs()" class="mt-6 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Générer tous les matchs</button>
-
-  <script>
-    const input = document.getElementById("newEquipe");
-    const ul = document.getElementById("listeEquipes");
-    let equipes = JSON.parse(localStorage.getItem("equipes") || "[]");
-
-    function refresh() {
-      ul.innerHTML = "";
-      equipes.forEach(e => ul.innerHTML += `<li>${e}</li>`);
-    }
-
-    function addEquipe() {
-      if (input.value && !equipes.includes(input.value)) {
-        equipes.push(input.value);
-        input.value = "";
-        localStorage.setItem("equipes", JSON.stringify(equipes));
-        refresh();
-      }
-    }
-
-    function genererMatchs() {
-      const matchs = [];
-      for (let i = 0; i < equipes.length; i++) {
-        for (let j = i + 1; j < equipes.length; j++) {
-          matchs.push({
-            equipeA: equipes[i],
-            equipeB: equipes[j],
-            scoreA: "",
-            scoreB: ""
-          });
-        }
-      }
-      localStorage.setItem("matchs", JSON.stringify(matchs));
-      alert("Matchs générés !");
-    }
-
-    refresh();
-  </script>
+  <h1>👥 Ajouter des équipes</h1>
+  <input type="text" id="newEquipe" placeholder="Nom de l’équipe">
+  <button onclick="addEquipe()">Ajouter</button>
+  <h2>Liste des équipes</h2>
+  <ul id="listeEquipes"></ul>
+  <button onclick="genererMatchs()">🔁 Générer les matchs</button>
 </body>
 </html>
