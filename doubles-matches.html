@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Championnat de Babyfoot - Classement Simple</title>
+    <title>Championnat de Babyfoot - Matchs Double</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="layout">
@@ -14,32 +14,27 @@
         </div>
         <nav>
             <ul class="tabs">
-                <li class="active"><a href="index.html">Simple - Classement</a></li>
+                <li><a href="index.html">Simple - Classement</a></li>
                 <li><a href="doubles.html">Double - Classement</a></li>
                 <li><a href="singles-matches.html">Simple - Matchs</a></li>
-                <li><a href="doubles-matches.html">Double - Matchs</a></li>
+                <li class="active"><a href="doubles-matches.html">Double - Matchs</a></li>
                 <li><a href="rules.html">Règles</a></li>
-                <li class="admin-link"><a href="admin/singles-teams.html">Admin</a></li>
+                <li class="admin-link"><a href="admin/doubles-teams.html">Admin</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <h2>Classement - Simple</h2>
-        <div class="standings-container">
-            <table class="standings-table">
+        <h2>Matchs à venir - Double</h2>
+        <div class="matches-container">
+            <table class="matches-table">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Équipe/Joueur</th>
-                        <th>V</th>
-                        <th>D</th>
-                        <th>MG</th>
-                        <th>MP</th>
-                        <th>PTS</th>
+                        <th>Match</th>
+                        <th>Résultat</th>
                     </tr>
                 </thead>
-                <tbody id="standings-body">
+                <tbody id="matches-body">
                     <!-- Filled by JavaScript -->
                 </tbody>
             </table>
@@ -51,6 +46,6 @@
     </footer>
 
     <script src="js/script.js"></script>
-    <script src="js/singles-standings.js"></script>
+    <script src="js/doubles-matches.js"></script>
 </body>
 </html>

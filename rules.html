@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Championnat de Babyfoot - Classement Simple</title>
+    <title>Championnat de Babyfoot - Règles</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="layout">
@@ -14,36 +14,18 @@
         </div>
         <nav>
             <ul class="tabs">
-                <li class="active"><a href="index.html">Simple - Classement</a></li>
+                <li><a href="index.html">Simple - Classement</a></li>
                 <li><a href="doubles.html">Double - Classement</a></li>
                 <li><a href="singles-matches.html">Simple - Matchs</a></li>
                 <li><a href="doubles-matches.html">Double - Matchs</a></li>
-                <li><a href="rules.html">Règles</a></li>
+                <li class="active"><a href="rules.html">Règles</a></li>
                 <li class="admin-link"><a href="admin/singles-teams.html">Admin</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
-        <h2>Classement - Simple</h2>
-        <div class="standings-container">
-            <table class="standings-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Équipe/Joueur</th>
-                        <th>V</th>
-                        <th>D</th>
-                        <th>MG</th>
-                        <th>MP</th>
-                        <th>PTS</th>
-                    </tr>
-                </thead>
-                <tbody id="standings-body">
-                    <!-- Filled by JavaScript -->
-                </tbody>
-            </table>
-        </div>
+    <main class="pdf-main">
+        <embed src="reglement_simplifie.pdf" class="pdf-embed" type="application/pdf">
     </main>
 
     <footer>
@@ -51,6 +33,5 @@
     </footer>
 
     <script src="js/script.js"></script>
-    <script src="js/singles-standings.js"></script>
 </body>
 </html>
