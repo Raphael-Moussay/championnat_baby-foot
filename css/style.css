@@ -262,16 +262,33 @@ footer {
     padding: 0;
     margin: 0;
     min-height: 0;
-    max-width: 100vw;   /* Prend toute la largeur de la fenêtre */
+    max-width: 100vw;
     width: 100vw;
 }
 
 .pdf-embed {
     flex: 1;
     width: 100%;
-    height: 100%;
+    height: 80vh;
     border: none;
-    min-height: 0;
+    min-height: 300px;
+    max-width: 100vw;
+    display: block;
+}
+@media (max-width: 600px) {
+    .pdf-main {
+        overflow-x: auto;
+    }
+    .pdf-embed {
+        width: 100vw;
+        max-width: 100vw;
+    }
+}
+@media (max-width: 600px) {
+    .pdf-embed {
+        height: 60vh;
+        min-height: 200px;
+    }
 }
 
 /* --- Animation d'intro Ligue des Champions --- */
