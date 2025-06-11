@@ -5,11 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Championnat de Babyfoot - Matchs Double</title>
     <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body class="layout">
     <header>
         <div class="logo-container">
-            <img src="img/logo.png" alt="Logo Championnat Babyfoot" class="logo">
+            <model-viewer src="2Logo_bds.glb"
+                alt="Logo 3D Championnat Babyfoot"
+                camera-controls
+                class="logo-3d-animated"
+                style="width: 120px; height: 120px; background: transparent;">
+            </model-viewer>
             <h1>Championnat de Babyfoot</h1>
         </div>
         <nav>
@@ -49,5 +55,20 @@
     <script src="js/supabase-init.js"></script>
     <script src="js/script.js"></script>
     <script src="js/doubles-matches.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const viewer = document.querySelector('.logo-3d-animated');
+            if (!viewer) return;
+            let t = 0;
+            function animate() {
+                t += 0.02;
+                // Dézoom : augmente la distance (par exemple 1.7m)
+                const orbit = `${10 * Math.sin(t)}deg 105deg 5m`;
+                viewer.setAttribute('camera-orbit', orbit);
+                requestAnimationFrame(animate);
+            }
+            animate();
+        });
+    </script>
 </body>
 </html>

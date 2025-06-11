@@ -19,3 +19,12 @@ function initTabs() {
 document.addEventListener('DOMContentLoaded', function() {
     initTabs();
 });
+
+window.addEventListener('DOMContentLoaded', () => {
+    const intro = document.getElementById('intro-animation');
+    if (!intro) return;
+    setTimeout(() => {
+        intro.classList.add('hide');
+        setTimeout(() => { intro.style.display = 'none'; }, 900);
+    }, 4000); // Durée de l'animation (modifiable)
+});
