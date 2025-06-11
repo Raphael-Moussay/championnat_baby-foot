@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     const standingsBody = document.getElementById('standings-body');
     
-    function loadStandings() {
-        const teams = loadData('doubles-teams') || [];
-        const matches = loadData('doubles-matches') || [];
+    async function loadStandings() {
+        const { data: teams } = await supabase.from('doubles_teams').select('*');
+        const { data: matches } = await supabase.from('doubles_matches').select('*');
         
         // Calculate standings
         const standings = calculateStandings(teams, matches);
@@ -49,22 +49,20 @@ document.addEventListener('DOMContentLoaded', function() {
         // Process completed matches
         matches.forEach(match => {
             if (match.completed) {
-                const team1 = standings.find(t => t.id === match.team1.id);
-                const team2 = standings.find(t => t.id === match.team2.id);
+                const team1 = standings.find(t => t.id === match.team1_id);
+                const team2 = standings.find(t => t.id === match.team2_id);
                 
                 if (team1 && team2) {
-                    // Update games won/lost
-                    team1.gamesWon += match.team1.gamesWon;
-                    team1.gamesLost += match.team1.gamesLost;
-                    team2.gamesWon += match.team2.gamesWon;
-                    team2.gamesLost += match.team2.gamesLost;
-                    
-                    // Update wins/losses and points
+                    team1.gamesWon += match.games_won1;
+                    team1.gamesLost += match.games_won2;
+                    team2.gamesWon += match.games_won2;
+                    team2.gamesLost += match.games_won1;
+
                     if (match.winner === team1.id) {
                         team1.wins += 1;
                         team1.points += 3;
                         team2.losses += 1;
-                    } else {
+                    } else if (match.winner === team2.id) {
                         team2.wins += 1;
                         team2.points += 3;
                         team1.losses += 1;

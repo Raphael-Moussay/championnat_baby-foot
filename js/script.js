@@ -1,26 +1,5 @@
 // Shared functions and utilities
 
-// Save data to localStorage
-function saveData(key, data) {
-    localStorage.setItem(key, JSON.stringify(data));
-}
-
-// Load data from localStorage
-function loadData(key) {
-    const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : null;
-}
-
-// Clear data from localStorage
-function clearData(key) {
-    localStorage.removeItem(key);
-}
-
-// Generate a unique ID
-function generateId() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
-}
-
 // Initialize tabs active state
 function initTabs() {
     const currentPage = window.location.pathname.split('/').pop();

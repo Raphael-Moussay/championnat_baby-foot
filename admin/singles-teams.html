@@ -8,46 +8,6 @@
     <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body class="layout">
-    <script>
-    // Mot de passe admin (à modifier !)
-    const ADMIN_PASSWORD = "Rbds2004";
-    if (!sessionStorage.getItem("admin-auth")) {
-        // Crée une modale simple pour le mot de passe
-        const modal = document.createElement('div');
-        modal.style.position = "fixed";
-        modal.style.top = 0;
-        modal.style.left = 0;
-        modal.style.width = "100vw";
-        modal.style.height = "100vh";
-        modal.style.background = "rgba(0,0,0,0.5)";
-        modal.style.display = "flex";
-        modal.style.alignItems = "center";
-        modal.style.justifyContent = "center";
-        modal.innerHTML = `
-            <div style="background:#fff;padding:2em;border-radius:8px;box-shadow:0 2px 8px #0003;text-align:center;">
-                <h2>Accès admin</h2>
-                <input id="admin-pass" type="password" placeholder="Mot de passe" style="padding:0.5em;font-size:1em;">
-                <button id="admin-ok" style="margin-left:1em;padding:0.5em 1em;">OK</button>
-                <div id="admin-error" style="color:red;margin-top:1em;display:none;">Mot de passe incorrect</div>
-            </div>
-        `;
-        document.body.appendChild(modal);
-
-        document.getElementById('admin-ok').onclick = function() {
-            const pass = document.getElementById('admin-pass').value;
-            if (pass !== ADMIN_PASSWORD) {
-                document.getElementById('admin-error').style.display = "block";
-            } else {
-                sessionStorage.setItem("admin-auth", "ok");
-                document.body.removeChild(modal);
-            }
-        };
-        // Permet d'appuyer sur Entrée
-        document.getElementById('admin-pass').addEventListener('keydown', function(e) {
-            if (e.key === "Enter") document.getElementById('admin-ok').click();
-        });
-    }
-    </script>
     <header>
         <div class="logo-container">
             <img src="../img/logo.png" alt="Logo Championnat Babyfoot" class="logo">
@@ -60,6 +20,7 @@
                 <li><a href="singles-scores.html">Scores Simple</a></li>
                 <li><a href="doubles-teams.html">Équipes Double</a></li>
                 <li><a href="doubles-scores.html">Scores Double</a></li>
+                <li><a href="#" id="logout-btn" class="logout-link">Déconnexion</a></li>
             </ul>
         </nav>
     </header>
@@ -98,6 +59,21 @@
         <p>© 2025 Championnat de Babyfoot. Tous droits réservés.</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-init.js"></script>
+    <script>
+    supabase.auth.getSession().then(({ data: { session } }) => {
+        if (!session) {
+            window.location.href = "login.html";
+        }
+    });
+
+    document.getElementById('logout-btn').onclick = async function(e) {
+        e.preventDefault();
+        await supabase.auth.signOut();
+        window.location.href = "login.html";
+    };
+    </script>
     <script src="../js/script.js"></script>
     <script src="../js/admin-singles-teams.js"></script>
     

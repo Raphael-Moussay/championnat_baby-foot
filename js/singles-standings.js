@@ -1,10 +1,9 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     const standingsBody = document.getElementById('standings-body');
+    const { data: teams } = await supabase.from('singles_teams').select('*');
+    const { data: matches } = await supabase.from('singles_matches').select('*');
     
     function loadStandings() {
-        const teams = loadData('singles-teams') || [];
-        const matches = loadData('singles-matches') || [];
-        
         // Calculate standings
         const standings = calculateStandings(teams, matches);
         
@@ -49,22 +48,22 @@ document.addEventListener('DOMContentLoaded', function() {
         // Process completed matches
         matches.forEach(match => {
             if (match.completed) {
-                const team1 = standings.find(t => t.id === match.team1.id);
-                const team2 = standings.find(t => t.id === match.team2.id);
+                const team1 = standings.find(t => t.id === match.team1_id);
+                const team2 = standings.find(t => t.id === match.team2_id);
                 
                 if (team1 && team2) {
                     // Update games won/lost
-                    team1.gamesWon += match.team1.gamesWon;
-                    team1.gamesLost += match.team1.gamesLost;
-                    team2.gamesWon += match.team2.gamesWon;
-                    team2.gamesLost += match.team2.gamesLost;
+                    team1.gamesWon += match.games_won1;
+                    team1.gamesLost += match.games_won2;
+                    team2.gamesWon += match.games_won2;
+                    team2.gamesLost += match.games_won1;
                     
                     // Update wins/losses and points
                     if (match.winner === team1.id) {
                         team1.wins += 1;
                         team1.points += 3;
                         team2.losses += 1;
-                    } else {
+                    } else if (match.winner === team2.id) {
                         team2.wins += 1;
                         team2.points += 3;
                         team1.losses += 1;

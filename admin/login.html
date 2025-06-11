@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion Admin</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="layout">
+    <main>
+        <div class="admin-container">
+            <h2>Connexion Admin</h2>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Mot de passe" required>
+            <button id="login-btn" class="btn btn-primary">Connexion</button>
+            <div id="login-error" style="color:red;margin-top:1em;"></div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase-init.js"></script>
+    <script>
+    document.getElementById('login-btn').onclick = async function() {
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+            document.getElementById('login-error').textContent = error.message;
+        } else {
+            window.location.href = "singles-teams.html";
+        }
+    };
+    </script>
+</body>
+</html>

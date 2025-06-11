@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     const matchesBody = document.getElementById('matches-body');
     
-    function loadAllMatches() {
-        const matches = loadData('doubles-matches') || [];
-        const teams = loadData('doubles-teams') || [];
+    async function loadAllMatches() {
+        const { data: matches } = await supabase.from('doubles_matches').select('*');
+        const { data: teams } = await supabase.from('doubles_teams').select('*');
         
         matchesBody.innerHTML = '';
         
@@ -15,25 +15,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         matches.forEach(match => {
-            const team1 = teams.find(t => t.id === match.team1.id);
-            const team2 = teams.find(t => t.id === match.team2.id);
+            const team1 = teams.find(t => t.id === match.team1_id);
+            const team2 = teams.find(t => t.id === match.team2_id);
             
-            if (team1 && team2) {
-                let result = "À jouer";
-                if (match.completed) {
-                    result = `${match.team1.gamesWon} - ${match.team2.gamesWon}`;
-                }
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>
-                        <strong>${team1.name}</strong> (${team1.player1} & ${team1.player2})<br>
-                        vs<br>
-                        <strong>${team2.name}</strong> (${team2.player1} & ${team2.player2})
-                    </td>
-                    <td>${result}</td>
-                `;
-                matchesBody.appendChild(row);
+            let result = "À jouer";
+            if (match.completed) {
+                result = `${match.games_won1} - ${match.games_won2}`;
             }
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <strong>${team1.name}</strong> (${team1.player1} & ${team1.player2})
+                    vs
+                    <strong>${team2.name}</strong> (${team2.player1} & ${team2.player2})
+                </td>
+                <td>${result}</td>
+            `;
+            matchesBody.appendChild(row);
         });
     }
     
