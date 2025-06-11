@@ -79,43 +79,37 @@ h2 {
 /* Navigation */
 .tabs {
     display: flex;
-    list-style: none;
-    justify-content: center;
-    margin-top: 1rem;
     flex-wrap: wrap;
+    gap: 0.5em;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    overflow-x: auto;
+    white-space: nowrap;
+    background: var(--primary-color, #1a2b5f);
 }
 
 .tabs li {
-    margin: 0 0.5rem;
-    display: flex;
-    align-items: center;
-    height: 100%;
+    flex: 0 0 auto;
 }
 
 .tabs a {
-    color: white;
+    display: block;
+    padding: 0.7em 1.2em;
+    color: #fff;
     text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    min-height: 40px; /* Optionnel pour forcer la même hauteur */
+    border-radius: 2em;
+    background: transparent;
+    transition: background 0.2s;
+    font-size: 1em;
+    white-space: nowrap;
 }
 
+.tabs li.active a,
 .tabs a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.tabs .active a {
-    background-color: var(--secondary-color);
-    color: var(--dark-color);
-    font-weight: bold;
-}
-
-.admin-link a {
-    background-color: var(--accent-color);
+    background: var(--success-color, #218838);
+    color: #fff;
 }
 
 /* Logout Link */
@@ -413,4 +407,68 @@ footer {
         margin-right: 0;
         margin-bottom: 1rem;
     }
+}
+
+/* --- Menu burger responsive --- */
+nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+.burger-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin: 0 auto 0.5em auto;
+    z-index: 1001;
+    transition: transform 0.3s;
+    position: relative;
+}
+.burger-menu span {
+    display: block;
+    height: 4px;
+    width: 28px;
+    margin: 5px 0;
+    background: #fff;
+    border-radius: 2px;
+    transition: 0.3s;
+}
+@media (max-width: 800px) {
+    .burger-menu {
+        display: flex;
+    }
+    .tabs {
+        display: none;
+        flex-direction: column;
+        background: var(--primary-color, #1a2b5f);
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100vw;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        z-index: 1000;
+    }
+    .tabs.open {
+        display: flex;
+    }
+    nav {
+        position: relative;
+    }
+}
+/* Animation burger -> croix améliorée */
+.burger-menu.open span:nth-child(1) {
+    transform: translateY(13.5px) rotate(45deg);
+}
+.burger-menu.open span:nth-child(2) {
+    opacity: 0;
+}
+.burger-menu.open span:nth-child(3) {
+    transform: translateY(-13.5px) rotate(-45deg);
 }

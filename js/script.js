@@ -28,3 +28,22 @@ window.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { intro.style.display = 'none'; }, 900);
     }, 4000); // Durée de l'animation (modifiable)
 });
+
+// Menu burger
+const burger = document.querySelector('.burger-menu');
+const tabs = document.querySelector('.tabs');
+if (burger && tabs) {
+    burger.addEventListener('click', function() {
+        const isOpen = tabs.classList.toggle('open');
+        burger.classList.toggle('open', isOpen);
+        burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    // Ferme le menu si on clique sur un lien
+    tabs.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            tabs.classList.remove('open');
+            burger.classList.remove('open');
+            burger.setAttribute('aria-expanded', 'false');
+        });
+    });
+}
