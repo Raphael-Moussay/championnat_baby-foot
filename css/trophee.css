@@ -1,0 +1,45 @@
+.trophees-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+.trophee-block {
+    flex: 1 1 320px;
+    max-width: 400px;
+    min-width: 260px;
+    background: var(--card-bg, #fff);
+    border-radius: 1.2em;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 1.5em 1em 2em 1em;
+    text-align: center;
+}
+.trophee-block h3 {
+    margin-bottom: 1em;
+}
+.trophee-3d {
+    width: 100%;
+    max-width: 320px;
+    height: 320px;
+    margin: 0 auto 1em auto;
+    background: transparent;
+}
+@media (max-width: 900px) {
+    .trophees-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.trophee-3d {
+    background: transparent !important;
+    border-radius: 1em;
+    box-shadow: 0 4px 24px 0 #0002;
+    outline: none;
+    /* Optionnel : transition douce sur le survol */
+    transition: box-shadow 0.2s;
+}
+.trophee-3d:hover {
+    box-shadow: 0 8px 32px 0 #0004;
+}

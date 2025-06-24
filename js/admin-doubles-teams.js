@@ -19,17 +19,14 @@ document.addEventListener('DOMContentLoaded', function() {
         renderTeamsList();
     }
     
-    // Render teams list
     function renderTeamsList() {
         teamsList.innerHTML = '';
-        
         if (doublesTeams.length === 0) {
             const row = document.createElement('tr');
             row.innerHTML = `<td colspan="4" class="text-center">Aucune équipe enregistrée</td>`;
             teamsList.appendChild(row);
             return;
         }
-        
         doublesTeams.forEach((team, index) => {
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -42,8 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             teamsList.appendChild(row);
         });
-        
-        // Add event listeners to delete buttons
         document.querySelectorAll('.delete-team').forEach(btn => {
             btn.addEventListener('click', function() {
                 const teamId = this.getAttribute('data-id');
@@ -52,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Add a new team
     async function addTeam() {
         const name = teamNameInput.value.trim();
         const player1 = player1Input.value.trim();
@@ -83,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchTeams();
     }
     
-    // Delete a team
     async function deleteTeam(teamId) {
         if (confirm('Êtes-vous sûr de vouloir supprimer cette équipe ?')) {
             const { error } = await supabase.from('doubles_teams').delete().eq('id', teamId);
@@ -95,34 +88,55 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Generate matches (round-robin tournament)
+    // Génère uniquement les nouveaux matchs non existants
     async function generateMatches() {
         if (doublesTeams.length < 2) {
             alert('Il faut au moins 2 équipes pour générer des matchs');
             return;
         }
-        const matches = [];
+        // Récupère tous les matchs existants
+        const { data: existingMatches, error: matchError } = await supabase
+            .from('doubles_matches')
+            .select('team1_id, team2_id');
+        if (matchError) {
+            alert("Erreur lors de la récupération des matchs existants : " + matchError.message);
+            return;
+        }
+        // Stocke les paires existantes dans un Set pour vérification rapide
+        const matchSet = new Set();
+        (existingMatches || []).forEach(m => {
+            const key = [Math.min(m.team1_id, m.team2_id), Math.max(m.team1_id, m.team2_id)].join('-');
+            matchSet.add(key);
+        });
+
+        const newMatches = [];
         for (let i = 0; i < doublesTeams.length; i++) {
             for (let j = i + 1; j < doublesTeams.length; j++) {
-                matches.push({
-                    team1_id: doublesTeams[i].id,
-                    team2_id: doublesTeams[j].id,
-                    games_won1: 0,
-                    games_won2: 0,
-                    completed: false,
-                    winner: null
-                });
+                const key = [Math.min(doublesTeams[i].id, doublesTeams[j].id), Math.max(doublesTeams[i].id, doublesTeams[j].id)].join('-');
+                if (!matchSet.has(key)) {
+                    newMatches.push({
+                        team1_id: doublesTeams[i].id,
+                        team2_id: doublesTeams[j].id,
+                        games_won1: 0,
+                        games_won2: 0,
+                        completed: false,
+                        winner: null
+                    });
+                }
             }
         }
-        const { error } = await supabase.from('doubles_matches').insert(matches);
+        if (newMatches.length === 0) {
+            alert("Aucun nouveau match à générer !");
+            return;
+        }
+        const { error } = await supabase.from('doubles_matches').insert(newMatches);
         if (error) {
             alert("Erreur lors de la génération : " + error.message);
             return;
         }
-        alert(`${matches.length} matchs ont été générés !`);
+        alert(`${newMatches.length} nouveaux matchs ont été générés !`);
     }
     
-    // Reset all teams
     async function resetTeams() {
         if (confirm('Êtes-vous sûr de vouloir réinitialiser toutes les équipes ? Cette action supprimera également tous les matchs.')) {
             await supabase.from('doubles_teams').delete().neq('id', 0);
@@ -131,7 +145,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Event listeners
     addTeamBtn.addEventListener('click', addTeam);
     generateMatchesBtn.addEventListener('click', generateMatches);
     resetTeamsBtn.addEventListener('click', resetTeams);

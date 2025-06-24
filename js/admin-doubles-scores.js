@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (team1 && team2) {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${team1.name} (${team1.player1} & ${team1.player2}) vs ${team2.name} (${team2.player1} & ${team2.player2})</td>
+                    <td><strong>${team1.name}</strong> (${team1.player1} & ${team1.player2}) vs <strong>${team2.name}</strong> (${team2.player1} & ${team2.player2})</td>
                     <td>
                         <button class="btn btn-primary enter-score" data-id="${match.id}">Entrer le score</button>
                     </td>
@@ -71,9 +71,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (team1 && team2 && winner) {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${team1.name} (${team1.player1} & ${team1.player2}) vs ${team2.name} (${team2.player1} & ${team2.player2})</td>
+                    <td><strong>${team1.name}</strong> (${team1.player1} & ${team1.player2}) vs <strong>${team2.name}</strong> (${team2.player1} & ${team2.player2})</td>
                     <td>${match.games_won1}-${match.games_won2}</td>
-                    <td>${winner.name}</td>
+                    <td><strong>${winner.name}</strong></td>
                 `;
                 scoredMatches.appendChild(row);
             }

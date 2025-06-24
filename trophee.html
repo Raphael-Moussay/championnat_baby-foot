@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Championnat de Babyfoot - Trophées</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/trophee.css"> <!-- Ajout du fichier CSS dédié -->
+    <link rel="icon" type="image/x-icon" href="img/Logo_bds.ico">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head>
+<body class="layout">
+    <header>
+        <div class="logo-container">
+            <model-viewer src="img/Logo_bds_3D.glb"
+                alt="Logo 3D Championnat Babyfoot"
+                camera-controls
+                class="logo-3d-animated"
+                environment-image="img/hdri_studio.hdr"
+                exposure="1.2"
+                style="width: 120px; height: 120px; background: transparent;">
+            </model-viewer>
+            <h1>Championnat de Babyfoot</h1>
+        </div>
+        <nav>
+            <button class="burger-menu" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="tabs">
+                <li><a href="index.html">Simple - Classement</a></li>
+                <li><a href="doubles.html">Double - Classement</a></li>
+                <li><a href="singles-matches.html">Simple - Matchs</a></li>
+                <li><a href="doubles-matches.html">Double - Matchs</a></li>
+                <li><a href="rules.html">Règles</a></li>
+                <li><a href="trophee.html" class="active">Trophées</a></li>
+                <li class="admin-link"><a href="admin/singles-teams.html">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Trophées des vainqueurs</h2>
+        <div class="trophees-container">
+            <div class="trophee-block">
+                <h3>Trophée Simple</h3>
+                <model-viewer
+                    src="img/Trophee_simple.glb"
+                    alt="Trophée du vainqueur Simple"
+                    camera-orbit="0deg 105deg 5m"
+                    camera-controls
+                    class="trophee-3d"
+                    environment-image="img/hdri_studio.hdr"
+                    exposure="1.2"
+                >
+                </model-viewer>
+                <p>Vainqueur du championnat en Simple</p>
+            </div>
+            <div class="trophee-block">
+                <h3>Trophée Double</h3>
+                <model-viewer
+                    src="img/Trophee_double.glb"
+                    alt="Trophée du vainqueur Double"
+                    camera-orbit="0deg 105deg 5m"
+                    camera-controls
+                    class="trophee-3d"
+                    environment-image="img/hdri_studio.hdr"
+                    exposure="1.2"
+                >
+                </model-viewer>
+                <p>Vainqueurs du championnat en Double</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 Championnat de Babyfoot. Tous droits réservés.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const viewer = document.querySelector('.logo-3d-animated');
+            if (!viewer) return;
+            let t = 0;
+            function animate() {
+                t += 0.02;
+                const orbit = `${10 * Math.sin(t)}deg 105deg 5m`;
+                viewer.setAttribute('camera-orbit', orbit);
+                requestAnimationFrame(animate);
+            }
+            animate();
+        });
+    </script>
+</body>
+</html>

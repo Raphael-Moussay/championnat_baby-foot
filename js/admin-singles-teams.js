@@ -70,30 +70,54 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Nouvelle version : ne génère que les nouveaux matchs non existants
     async function generateMatches() {
         if (players.length < 2) {
             alert('Il faut au moins 2 joueurs pour générer des matchs');
             return;
         }
-        const matches = [];
+        // Récupère tous les matchs existants
+        const { data: existingMatches, error: matchError } = await supabase
+            .from('singles_matches')
+            .select('team1_id, team2_id');
+        if (matchError) {
+            alert("Erreur lors de la récupération des matchs existants : " + matchError.message);
+            return;
+        }
+        // On stocke les paires existantes dans un Set pour vérification rapide
+        const matchSet = new Set();
+        (existingMatches || []).forEach(m => {
+            // On stocke les paires triées pour ignorer l'ordre
+            const key = [Math.min(m.team1_id, m.team2_id), Math.max(m.team1_id, m.team2_id)].join('-');
+            matchSet.add(key);
+        });
+
+        const newMatches = [];
         for (let i = 0; i < players.length; i++) {
             for (let j = i + 1; j < players.length; j++) {
-                matches.push({
-                    team1_id: players[i].id,
-                    team2_id: players[j].id,
-                    games_won1: 0,
-                    games_won2: 0,
-                    completed: false,
-                    winner: null
-                });
+                const key = [Math.min(players[i].id, players[j].id), Math.max(players[i].id, players[j].id)].join('-');
+                if (!matchSet.has(key)) {
+                    newMatches.push({
+                        team1_id: players[i].id,
+                        team2_id: players[j].id,
+                        games_won1: 0,
+                        games_won2: 0,
+                        completed: false,
+                        winner: null
+                    });
+                }
             }
         }
-        const { error } = await supabase.from('singles_matches').insert(matches);
+        if (newMatches.length === 0) {
+            alert("Aucun nouveau match à générer !");
+            return;
+        }
+        const { error } = await supabase.from('singles_matches').insert(newMatches);
         if (error) {
             alert("Erreur lors de la génération : " + error.message);
             return;
         }
-        alert(`${matches.length} matchs ont été générés !`);
+        alert(`${newMatches.length} nouveaux matchs ont été générés !`);
     }
 
     async function resetTeams() {
