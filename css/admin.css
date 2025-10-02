@@ -145,6 +145,10 @@
     margin-bottom: 1.5rem;
 }
 
+.admin-table td, .admin-table th { word-break: break-word; }
+.admin-table td:first-child, .admin-table th:first-child { white-space: normal; }
+.admin-table td:nth-child(2), .admin-table th:nth-child(2) { white-space: nowrap; }
+
 .admin-table th {
     background-color: var(--primary-color);
     color: white;

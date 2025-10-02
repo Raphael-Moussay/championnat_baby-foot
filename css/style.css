@@ -180,6 +180,34 @@ h2 {
     .filter-row label { margin-bottom: 0.25rem; }
     .filter-row select { width: 100%; }
 }
+
+/* Better behavior for tablet / small desktop widths where filter looked off */
+@media (max-width: 1000px) {
+    .matches-container .filter-row {
+        justify-content: center; /* center the filter above the table */
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    .matches-container .filter-row select {
+        max-width: 320px;
+        width: 100%;
+    }
+    /* allow table container to scroll horizontally when needed */
+    .matches-container { overflow-x: auto; }
+    /* Prefer wrapping cells instead of forcing a wide minimum width to avoid horizontal scrolling
+       when possible. Keep overflow-x as a fallback for extremely long content. */
+    .matches-table { min-width: 0; width: 100%; table-layout: auto; }
+    /* Only allow wrapping for the first column (team names). Keep the result column on one line. */
+    .matches-table td:first-child, .matches-table th:first-child { word-break: break-word; white-space: normal; }
+    .matches-table td:nth-child(2), .matches-table th:nth-child(2) { white-space: nowrap; }
+}
+
+/* Very small screens: make table more compact if possible */
+@media (max-width: 420px) {
+    .filter-row { padding-left: 0.4rem; padding-right: 0.4rem; }
+    .filter-row label { font-size: 0.95rem; }
+    .matches-table td, .matches-table th { font-size: 0.95rem; }
+}
 /* Footer */
 footer {
     text-align: center;
