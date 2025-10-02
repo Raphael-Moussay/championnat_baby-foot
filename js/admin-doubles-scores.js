@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let matches = [];
     let teams = [];
+    let currentFilter = 'all';
 
     // Récupère les données depuis Supabase
     async function fetchData() {
@@ -11,14 +12,37 @@ document.addEventListener('DOMContentLoaded', function() {
         const { data: t } = await supabase.from('doubles_teams').select('*');
         matches = m || [];
         teams = t || [];
+        populateTeamFilter();
         renderMatchesToScore();
         renderScoredMatches();
+    }
+
+    function populateTeamFilter() {
+        const select = document.getElementById('team-filter');
+        if (!select) return;
+        // clear existing options except 'all'
+        select.innerHTML = '<option value="all">Toutes les équipes</option>';
+        teams.forEach(team => {
+            const opt = document.createElement('option');
+            opt.value = team.id;
+            opt.textContent = team.name;
+            select.appendChild(opt);
+        });
+
+        select.addEventListener('change', function() {
+            currentFilter = this.value;
+            renderMatchesToScore();
+        });
     }
 
     // Affiche les matchs à saisir
     function renderMatchesToScore() {
         matchesToScore.innerHTML = '';
-        const incompleteMatches = matches.filter(match => !match.completed);
+        const incompleteMatches = matches.filter(match => !match.completed)
+            .filter(match => {
+                if (currentFilter === 'all') return true;
+                return match.team1_id == currentFilter || match.team2_id == currentFilter;
+            });
 
         if (incompleteMatches.length === 0) {
             const row = document.createElement('tr');

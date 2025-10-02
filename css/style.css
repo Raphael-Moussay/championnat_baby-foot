@@ -147,6 +147,39 @@ h2 {
     background-color: #f1f1f1;
 }
 
+/* Filter styling (global for public pages) */
+.filter-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0.8rem 0 1.2rem;
+    padding-left: 0.6rem; /* avoid label touching page edge */
+}
+.filter-row label {
+    font-weight: 600;
+    color: var(--muted-text, #444);
+}
+.filter-row select {
+    padding: 0.45rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.12);
+    background: linear-gradient(180deg, #fff, #fbfbfb);
+    box-shadow: 0 2px 6px rgba(16,24,40,0.04);
+    min-width: 180px;
+    transition: box-shadow 0.15s, transform 0.08s;
+}
+.filter-row select:focus {
+    outline: none;
+    box-shadow: 0 6px 18px rgba(59,130,246,0.12);
+    transform: translateY(-1px);
+    border-color: rgba(59,130,246,0.6);
+}
+
+@media (max-width: 720px) {
+    .filter-row { flex-direction: column; align-items: stretch; padding-left: 0; }
+    .filter-row label { margin-bottom: 0.25rem; }
+    .filter-row select { width: 100%; }
+}
 /* Footer */
 footer {
     text-align: center;

@@ -122,6 +122,23 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Admin filter tweaks: placed outside modal to avoid scoping issues */
+.matches-to-score .filter-row {
+    justify-content: flex-start;
+    margin-bottom: 0.6rem;
+    padding-left: 0.6rem; /* space from the left border */
+}
+.matches-to-score .filter-row label {
+    padding-left: 0.25rem; /* slight spacing for the label */
+}
+.matches-to-score .filter-row select {
+    min-width: 220px;
+}
+
+@media (min-width: 1000px) {
+    .matches-to-score .filter-row { justify-content: flex-end; padding-left: 0; }
+}
+
 
 .admin-table {
     width: 100%;
